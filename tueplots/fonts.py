@@ -43,6 +43,22 @@ def icml2022(*, family="serif"):
     }
 
 
+def jmlr2001_tex(*, family="serif"):
+    if family == "serif":
+        return {
+            "text.usetex": True,
+            "font.family": "serif",
+        }
+    preamble = (
+        r"\renewcommand{\familydefault}{\sfdefault} \usepackage{sansmath} \sansmath"
+    )
+    return {
+        "text.usetex": True,
+        "font.family": "sans-serif",
+        "text.latex.preamble": preamble,
+    }
+
+
 def icml2022_tex(*, family="serif"):
     preamble = r"\usepackage{times} "
     if family == "serif":
@@ -67,6 +83,9 @@ def beamer_moml():
         "text.usetex": False,
         "font.serif": ["Roboto Condensed"],
         "font.family": "serif",
+        "font.weight": "light",
+        "axes.labelweight": "light",
+        "axes.titleweight": "light",
     }
 
 
@@ -76,4 +95,7 @@ def beamer_moml_dark_bg():
         "text.usetex": False,
         "font.serif": ["Roboto Condensed"],
         "font.family": "serif",
+        "font.weight": "light",
+        "axes.labelweight": "light",
+        "axes.titleweight": "light",
     }

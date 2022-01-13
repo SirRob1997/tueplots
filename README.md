@@ -24,7 +24,17 @@ https://github.com/pnkraemer/tueplots.git
 Instead, it makes it effortless to avoid common issues like too-small figures, inappropriate fontsizes, or inconsistencies among figures.
 Because good-looking figures _are_ important. 
 
-The code adheres to the following principles.
+For example, consider the style tailored to the ICML2022 template.
+(Left: default matplotlib, middle: one line of tueplots-code, right: two lines of tueplots-code)
+
+<p align="center">
+<img src="./_img/before.png" width="200"/>
+<img src="./_img/after1.png" width="200"/>
+<img src="./_img/after2.png" width="200"/>
+</p>
+
+
+## Principles
 
 _**`tueplots` has no internal state:**_
 It only passes around dictionaries, whose key-value pairs match those that matplotlib uses.
@@ -49,20 +59,20 @@ and that the font-size in the plot should be readable, and similar to the rest o
 `tueplots` provides some recipes for scientific plotting. 
 For example, figure sizes can be tailored straightforwardly to some common journal page layouts:
 ```python
->>> from tueplots import figsize
->>> figsize.jmlr2001()["figure.figsize"]
+>>> from tueplots import figsizes
+>>> figsizes.jmlr2001()["figure.figsize"]
 (6.0, 1.8541019662496847)
 ```
 within one module, the functions have a unified interface (wherever possible)
 ```python
->>> figsize.jmlr2001(nrows=2)["figure.figsize"]
+>>> figsizes.jmlr2001(nrows=2)["figure.figsize"]
 (6.0, 3.7082039324993694)
 >>> 
->>> figsize.neurips2021(nrows=3)["figure.figsize"]
+>>> figsizes.neurips2021(nrows=3)["figure.figsize"]
 (5.499999861629998, 5.098780278910587)
 >>> 
 >>> # The full output:
->>> figsize.icml2022(nrows=4)
+>>> figsizes.icml2022(nrows=4)
 {'figure.autolayout': False,
  'figure.constrained_layout.use': True,
  'figure.figsize': (6.75, 8.343458848123582)}
@@ -81,9 +91,9 @@ array([0.68627451, 0.70196078, 0.71764706])
 
 Most of the output types of functions in `tueplots` are dictionaries that are directly compatible with matplotlib's `rcParam` language.
 ```python
->>> from tueplots import marker
+>>> from tueplots import markers
 >>> 
->>> marker.inverted()
+>>> markers.inverted()
 {'lines.markeredgecolor': 'auto',
  'lines.markeredgewidth': 0.75,
  'lines.markerfacecolor': 'white'}
@@ -92,11 +102,11 @@ Most of the output types of functions in `tueplots` are dictionaries that are di
 >>> import matplotlib.pyplot as plt
 
 >>> # Use them as context managers:
->>> with plt.rc_context(marker.inverted()):
+>>> with plt.rc_context(markers.inverted()):
 ...     pass # do your plotting...
 
 >>> # Or change your global configuration
->>> plt.rcParams.update(marker.inverted())
+>>> plt.rcParams.update(markers.inverted())
 ```
 
 For more detailed tutorials, please have a look at the examples in the `examples/` directory.
@@ -146,12 +156,12 @@ The signatures are interchangeable.
 ```
 If you don't want a pre-packaged solution, at least fix your figure- and font-sizes as follows.
 ```python
->>> from tueplots import figsize, fontsizes, fonts
->>> figsize.icml2022()
+>>> from tueplots import figsizes, fontsizes, fonts
+>>> figsizes.icml2022()
 {'figure.autolayout': False,
  'figure.constrained_layout.use': True,
  'figure.figsize': (6.75, 2.0858647120308955)}
->>> figsize.icml2022(column="half", nrows=2, constrained_layout=True, tight_layout=False)
+>>> figsizes.icml2022(column="half", nrows=2, constrained_layout=True, tight_layout=False)
 {'figure.autolayout': False,
  'figure.constrained_layout.use': True,
  'figure.figsize': (3.25, 4.017220926874317)}
@@ -191,61 +201,33 @@ consider the `axes.lines()` setting.
 >>> from tueplots import axes
 >>> axes.lines()
 {'axes.axisbelow': True,
- 'axes.edgecolor': 'black',
- 'axes.labelcolor': 'black',
  'axes.linewidth': 0.5,
- 'axes.spines.bottom': True,
- 'axes.spines.left': True,
- 'axes.spines.right': True,
- 'axes.spines.top': True,
- 'grid.alpha': 0.25,
- 'grid.color': 'black',
- 'grid.linestyle': 'solid',
  'grid.linewidth': 0.5,
  'legend.edgecolor': 'inherit',
- 'lines.linewidth': 0.5,
+ 'lines.linewidth': 1.0,
  'patch.linewidth': 0.5,
- 'text.color': 'black',
- 'xtick.color': 'black',
- 'xtick.direction': 'inout',
  'xtick.major.size': 3.0,
  'xtick.major.width': 0.5,
- 'xtick.minor.size': 1.75,
+ 'xtick.minor.size': 2.0,
  'xtick.minor.width': 0.25,
- 'ytick.color': 'black',
- 'ytick.direction': 'inout',
  'ytick.major.size': 3.0,
  'ytick.major.width': 0.5,
- 'ytick.minor.size': 1.75,
+ 'ytick.minor.size': 2.0,
  'ytick.minor.width': 0.25}
->>> axes.lines(base_width=0.5, color="black", spines_right=False, spines_top=False)
+>>> axes.lines(base_width=0.5)
 {'axes.axisbelow': True,
- 'axes.edgecolor': 'black',
- 'axes.labelcolor': 'black',
  'axes.linewidth': 0.5,
- 'axes.spines.bottom': True,
- 'axes.spines.left': True,
- 'axes.spines.right': False,
- 'axes.spines.top': False,
- 'grid.alpha': 0.25,
- 'grid.color': 'black',
- 'grid.linestyle': 'solid',
  'grid.linewidth': 0.5,
  'legend.edgecolor': 'inherit',
- 'lines.linewidth': 0.5,
+ 'lines.linewidth': 1.0,
  'patch.linewidth': 0.5,
- 'text.color': 'black',
- 'xtick.color': 'black',
- 'xtick.direction': 'inout',
  'xtick.major.size': 3.0,
  'xtick.major.width': 0.5,
- 'xtick.minor.size': 1.75,
+ 'xtick.minor.size': 2.0,
  'xtick.minor.width': 0.25,
- 'ytick.color': 'black',
- 'ytick.direction': 'inout',
  'ytick.major.size': 3.0,
  'ytick.major.width': 0.5,
- 'ytick.minor.size': 1.75,
+ 'ytick.minor.size': 2.0,
  'ytick.minor.width': 0.25}
 ```
 
